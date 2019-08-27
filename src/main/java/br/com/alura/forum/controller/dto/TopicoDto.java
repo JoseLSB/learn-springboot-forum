@@ -35,10 +35,6 @@ public class TopicoDto {
 		return dataCriacao;
 	}
 
-	public static List<TopicoDto> converter(List<Topico> topicos) {
-		return topicos.stream().map(TopicoDto::new).collect(Collectors.toList());
-	}
-
 	public static Page<TopicoDto> converter(Page<Topico> pageTopicos) {
 		return pageTopicos.map(TopicoDto::new);
 	}
