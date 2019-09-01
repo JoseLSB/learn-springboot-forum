@@ -3,11 +3,13 @@ package br.com.alura.forum.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import br.com.alura.forum.config.security.AutenticacaoForm;
 import br.com.alura.forum.modelo.Usuario;
 import br.com.alura.forum.repository.UsuarioRepository;
 
@@ -26,6 +28,10 @@ public class AutenticacaoService implements UserDetailsService {
 		}
 		
 		throw new UsernameNotFoundException("Usuário ou senha inválido.");
+	}
+	
+	public UsernamePasswordAuthenticationToken usuarioSenhaParaUserPassAuthToken(AutenticacaoForm dadosUsuario) {
+		return new UsernamePasswordAuthenticationToken(dadosUsuario.getUsuario(), dadosUsuario.getSenha()); 
 	}
 
 }
