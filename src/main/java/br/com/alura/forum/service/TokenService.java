@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.alura.forum.modelo.Usuario;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 @Service
 public class TokenService {
@@ -25,10 +26,20 @@ public class TokenService {
 		
 		String jwt = Jwts.builder()
 					 .setIssuer("Gerando JWT para Fórum Alura")
-					 .setSubject(usuario.getEmail())
+					 .setSubject(usuario.getId().toString())
 					 .setIssuedAt(hoje)
 					 .setExpiration(dataExpiracao)
+					 .signWith(SignatureAlgorithm.HS256, secret)
 					 .compact();
 		return jwt;
+	}
+
+	public Boolean isTokenValido(String token) {
+		try {
+			Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 }
